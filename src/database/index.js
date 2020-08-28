@@ -1,4 +1,4 @@
-export default [
+const data = [
     {
         seller: {
             name: 'Lucas Cassilha',
@@ -80,3 +80,5 @@ export default [
             'Um Curso de Cálculo Vol. 1 - Guidorizzi Usado\nEm ótimo estado\nEntrega por correios',
     },
 ];
+
+export default data;
