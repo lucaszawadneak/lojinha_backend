@@ -1,25 +1,23 @@
 import { Router } from 'express';
 
 import data from './database';
-// import axios from 'axios';
+import siga from './services/api';
 
 const routes = new Router();
 
 routes.post('/login', async (req, res) => {
-    // const auth = await axios
-    //     .post(
-    //         'https://siga.ufpr.br:8380/siga/autenticacaoterceiros/discente/graduacao',
-    //         { cpf: '', senha: '1', token: process.env.SIGA_TOKEN }
-    //     )
-    //     .then((response) => console.log(response))
-    //     .catch((err) => console.log(err));
+    const auth = await siga
+        .post(
+            'https://siga.ufpr.br:8380/siga/autenticacaoterceiros/discente/graduacao/',
+            {
+                cpf: process.env.TEST_CPF,
+                senha: process.env.TEST_PASSWORD,
+                token: process.env.SIGA_TOKEN,
+            }
+        )
+        .catch((err) => console.log(err));
 
-    //     return res.json({...auth})
-
-    return res.json({
-        name: 'Lucas Cassilha',
-        id: 0,
-    });
+    return res.json({ ...auth.data });
 });
 
 routes.get('/products', (req, res) => {
