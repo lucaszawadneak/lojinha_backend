@@ -1,34 +1,25 @@
 import { Router } from 'express';
+import multer from 'multer';
 
-import data from './database';
-import siga from './services/api';
+import multerConfig from './config/multer';
+import SessionController from './app/controllers/SessionController';
+import FileController from './app/controllers/FileController';
+
+import authVerification from './middlewares/auth';
 
 const routes = new Router();
+const upload = multer(multerConfig);
 
-routes.post('/login', async (req, res) => {
-    const { cpf, password } = req.params;
+routes.post('/login', SessionController.store);
 
-    const auth = await siga
-        .post(
-            'https://siga.ufpr.br:8380/siga/autenticacaoterceiros/discente/graduacao/',
-            {
-                cpf: process.env.TEST_CPF,
-                senha: process.env.TEST_PASSWORD,
-                token: process.env.SIGA_TOKEN,
-            }
-        )
-        .catch((err) => console.log(err));
+routes.use(authVerification);
 
-    if (auth.status === 200) {
-        return res.json({ ...auth.data });
-    }
-    return res
-        .status(auth.status)
-        .json({ error: 'Occoreu um erro com a sua autenticação' });
-});
+// todas as rotas abaixo precisam da que o usuário mande o token para funcionar
+
+routes.post('/files', upload.single('file'), FileController.store);
 
 routes.get('/products', (req, res) => {
-    return res.json(data);
+    return res.json({});
 });
 
 export default routes;
