@@ -21,8 +21,8 @@ const fileSchema = new Scheme({
     },
 });
 
-fileSchema.virtual('url').get(() => {
-    return `http://localhost:3333/${this.path}`;
+fileSchema.virtual('url').get(function () {
+    return `http://localhost:3333/files/${this.path}`;
 });
 
 const model = mongoose.model('File', fileSchema);
