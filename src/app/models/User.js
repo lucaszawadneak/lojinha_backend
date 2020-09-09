@@ -11,6 +11,15 @@ const userSchema = new Scheme({
         type: String,
         required: true,
     },
+    email: {
+        type: String,
+        required: true,
+    },
+    password_hash: String,
+    avatar: {
+        type: Scheme.Types.ObjectId,
+        ref: 'File',
+    },
     created_at: {
         type: Date,
         default: Date.now,

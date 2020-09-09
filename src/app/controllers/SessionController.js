@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 
+import bcrypt from 'bcryptjs';
 import User from '../models/User';
 import siga from '../../services/api';
 import authConfig from '../../config/auth';
@@ -7,6 +8,34 @@ import authConfig from '../../config/auth';
 class SessionController {
     async store(req, res) {
         const { cpf, password } = req.body;
+
+        const findUser = await User.findOne({ cpf }).catch(() =>
+            console.log('Usuário não cadastrado')
+        );
+
+        if (findUser) {
+            const { password_hash } = findUser;
+            if (findUser.password_hash) {
+                const validPassword = await bcrypt.compareSync(
+                    password,
+                    password_hash
+                );
+                if (validPassword) {
+                    return res.json({
+                        token: jwt.sign({ id: cpf }, process.env.AUTH_SECRET, {
+                            expiresIn: authConfig.expiresIn,
+                        }),
+                        name: findUser.name,
+                        cpf: findUser.cpf,
+                        email: findUser.email,
+                        avatar_id: findUser.avatar_id,
+                    });
+                }
+                return res
+                    .status(401)
+                    .json({ error: 'Usuário ou senha inválidos' });
+            }
+        }
 
         const auth = await siga
             .post(process.env.SIGA_URL, {
@@ -35,7 +64,9 @@ class SessionController {
                 user.save();
             }
             return res.json({
-                ...auth.data,
+                cpf: auth.data.documento,
+                nome: auth.data.nome,
+                email: auth.data.email,
                 token: jwt.sign({ id: documento }, process.env.AUTH_SECRET, {
                     expiresIn: authConfig.expiresIn,
                 }),
