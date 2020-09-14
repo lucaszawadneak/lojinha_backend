@@ -25,6 +25,7 @@ class SessionController {
                         token: jwt.sign({ id: cpf }, process.env.AUTH_SECRET, {
                             expiresIn: authConfig.expiresIn,
                         }),
+                        id: findUser.id,
                         name: findUser.name,
                         cpf: findUser.cpf,
                         email: findUser.email,

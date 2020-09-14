@@ -24,6 +24,8 @@ routes.get('/products', (req, res) => {
 routes.use(authVerification);
 
 // todas as rotas abaixo precisam da que o usuário mande o token para funcionar
-routes.get('/userInfo', UserController.index);
+routes.get('/user_info/:id', UserController.index);
+
+routes.post('/update_user/:id', UserController.update);
 
 export default routes;
