@@ -2,23 +2,22 @@ import mongoose from 'mongoose';
 
 const Scheme = mongoose.Schema;
 
-const userSchema = new Scheme({
-    cpf: {
+const productSchema = new Scheme({
+    title: {
         type: String,
         required: true,
     },
-    name: {
+    value: {
         type: String,
         required: true,
     },
-    email: {
+    description: {
         type: String,
         required: true,
     },
-    password_hash: String,
-    avatar: {
+    user: {
         type: Scheme.Types.ObjectId,
-        ref: 'File',
+        ref: 'User',
     },
     created_at: {
         type: Date,
@@ -26,6 +25,6 @@ const userSchema = new Scheme({
     },
 });
 
-const model = mongoose.model('User', userSchema);
+const model = mongoose.model('Product', productSchema);
 
 export default model;

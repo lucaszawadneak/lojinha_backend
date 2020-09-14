@@ -15,10 +15,6 @@ const fileSchema = new Scheme({
         type: Date,
         default: Date.now,
     },
-    edited_at: {
-        type: Date,
-        default: Date.now,
-    },
 });
 
 fileSchema

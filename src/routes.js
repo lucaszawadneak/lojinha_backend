@@ -15,7 +15,7 @@ routes.post('/login', SessionController.store);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
-routes.post('/register_user', UserController.store);
+routes.post('/user', UserController.store);
 
 routes.get('/products', (req, res) => {
     return res.json({});
@@ -24,7 +24,9 @@ routes.get('/products', (req, res) => {
 routes.use(authVerification);
 
 // todas as rotas abaixo precisam da que o usuário mande o token para funcionar
-routes.get('/user_info/:id', UserController.index);
+routes.get('/user/:id', UserController.index);
+
+routes.delete('/user/:id', UserController.delete);
 
 routes.post('/update_user/:id', UserController.update);
 

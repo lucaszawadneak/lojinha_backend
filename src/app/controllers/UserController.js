@@ -155,6 +155,14 @@ class UserController {
 
         return res.json({ message: 'Ok!' });
     }
+
+    async delete(req, res) {
+        const { id } = req.params;
+
+        await User.findByIdAndDelete(id);
+
+        return res.json({ message: 'Ok!' });
+    }
 }
 
 export default new UserController();
