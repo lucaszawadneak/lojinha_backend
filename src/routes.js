@@ -20,7 +20,8 @@ routes.post('/user', UserController.store);
 
 routes.use(authVerification);
 
-// todas as rotas abaixo precisam da que o usuário mande o token para funcionar
+// todas as rotas abaixo precisam da que o usuário mande um token válido para funcionar
+
 routes.get('/user/:id', UserController.index);
 
 routes.delete('/user/:id', UserController.delete);
