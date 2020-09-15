@@ -61,11 +61,13 @@ SIGA_URL=
 
 O campo SIGA_TOKEN faz referência ao token para poder usar rotas na integração com o SIGA.
 
+O campo API_URL é a url por onde o servidor tem acesso a base de dados MongoDB
+
 O campo AUTH_SECRET é uma chave qualquer que codifica os tokens da nossa aplicação (apenas digite qualquer palavra para testes).
 
 O campo SIGA_URL é o url para requisições no SIGA.
 
-**Por motivos de segurança, os dados referentes ao SIGA não serão compartilhados nessa documentação.**
+**Por motivos de segurança, os dados referentes ao SIGA não serão compartilhados nessa documentação. Caso você não tenha acesso a essas informações, deixe os campos em branco**
 
 ### **Passo 4 - Rode a aplicação**
 
@@ -75,7 +77,7 @@ Dentro do diretório do projeto, rode:
 $ yarn dev
 ```
 
-,ou:
+ou:
 
 ```bash
 $ npm run dev
