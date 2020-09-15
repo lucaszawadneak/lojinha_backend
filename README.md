@@ -85,6 +85,51 @@ Para iniciar o servidor Node da aplicação. Agora é só **utilizar do seu test
 
 O projeto está rodando por padrão no url **http://localhost:3333/**. Portanto, todas as rotas devem ter esse url como prefixo para funcionar (como por exemplo http://localhost:3333/login para acessar a rota de login).
 
+## :computer: Disposição das rotas
+
+### Rotas de autenticação
+
+**POST /login** -
+Recebe cpf e senha do usuário para tentar logar ou pelo próprio sistema, ou pelo SIGA.
+Retorna informações do usuário como token, id, nome,cpf,email e id do avatar.
+
+### Rotas de envio de arquivos
+
+**POST /files** -
+Recebe um arquivo único e o retorna id, nome da imagem e url de acesso.
+
+### Rotas de gerenciamento de usuários
+
+**POST /user** -
+Recebe informações de cadastro de usuário como nome, cpf, email e senha. Retorna uma mensagem de sucesso.
+
+**GET /user/:id** -
+Recebe id de um usuário como parametro e retorna informações sobre o mesmo - id,nome,email,cpf,data de criação.
+
+Exemplo: /user/5f5fc897eb435e3b2e614df3
+
+**DELETE /user/:id** -
+Recebe id de um usuário como parametro e retorna mensagem de confirmação se o usuário for deletado.
+
+Exemplo: /user/5f5fc897eb435e3b2e614df3
+
+**POST /update_user/:id** -
+Recebe id de usuário e informações a serem atualizadas e retorna mensagem de confirmação.
+
+### Rotas de gerenciamento de produtos
+
+**POST /product** -
+Recebe informações de cadastro de produto como título, preço, descrição, id do avatar, categoria, id de usuário. Retorna as informações do produto já registrado na base de dados.
+
+**GET /product/:id** -
+Recebe id de um produto e retorna informações sobre o mesmo, como título,descrição, preço, url da image, dados do autor, categoria.
+
+**GET /products** -
+Retorna lista de todos os produtos cadastrados.
+
+**DELETE /product/:id** -
+Recebe id de um produto como parametro e retorna mensagem de confirmação se o produto for deletado.
+
 ## :wrench: Tecnologias usadas:
 
 Neste projeto foram usadas as seguintes tecnologias e ferramentas:
