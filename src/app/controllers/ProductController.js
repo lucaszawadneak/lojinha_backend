@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import * as Yup from 'yup';
 import Product from '../models/Product';
 
@@ -48,6 +49,31 @@ class ProductController {
             .select('-password_hash')
             .catch(() => console.log('Produto não encontrado'));
         return res.json(products);
+    }
+
+    async delete(req, res) {
+        const { id } = req.params;
+        const { id: user_id } = req.body;
+
+        const findProduct = await Product.findById(id).catch(() =>
+            console.log('Produto não encontrado!')
+        );
+
+        if (!findProduct) {
+            return res.status(400).json({ error: 'Produto não encontrado!' });
+        }
+
+        if (findProduct.user != user_id) {
+            return res
+                .status(401)
+                .json({ error: 'Você não pode deletar esse produto!' });
+        }
+
+        await Product.deleteOne({ _id: id }).catch(() =>
+            console.log('Erro ao deletar')
+        );
+
+        return res.json({ message: 'Ok!' });
     }
 }
 

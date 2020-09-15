@@ -33,4 +33,6 @@ routes.get('/product/:id', ProductController.index);
 
 routes.get('/products', ProductController.show);
 
+routes.delete('/product/:id', ProductController.delete);
+
 export default routes;
