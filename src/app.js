@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-
 import path from 'path';
+
 import routes from './routes';
 import log from './middlewares/log';
 
@@ -41,4 +41,6 @@ class App {
     }
 }
 
-export default new App().server;
+const newApp = new App().server;
+
+export default newApp;
