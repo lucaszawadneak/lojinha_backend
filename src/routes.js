@@ -6,6 +6,7 @@ import SessionController from './app/controllers/SessionController';
 import FileController from './app/controllers/FileController';
 import UserController from './app/controllers/UserController';
 import ProductController from './app/controllers/ProductController';
+import ChatController from './app/controllers/ChatController';
 
 import authVerification from './middlewares/auth';
 
@@ -35,5 +36,13 @@ routes.get('/product/:id', ProductController.index);
 routes.get('/products', ProductController.show);
 
 routes.delete('/product/:id', ProductController.delete);
+
+routes.post('/chat/create', ChatController.initialize);
+
+routes.post('/chat/message', ChatController.store);
+
+routes.get('/chat/:id/:user', ChatController.index);
+
+routes.get('/chats/:user', ChatController.show);
 
 export default routes;

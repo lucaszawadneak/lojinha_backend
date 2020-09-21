@@ -5,7 +5,9 @@ export default async (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-        return res.status(401).json({ error: 'Unauthorized!' });
+        return res
+            .status(401)
+            .json({ error: 'Token inválido ou inexistente!' });
     }
 
     const [, token] = authHeader.split(' ');
@@ -22,7 +24,9 @@ export default async (req, res, next) => {
 
         return next();
     } catch (error) {
-        console.log('Unauthorized!');
-        return res.status(401).json({ error: 'Unauthorized!' });
+        console.log('Token inválido ou inexistente!');
+        return res
+            .status(401)
+            .json({ error: 'Token inválido ou inexistente!' });
     }
 };
