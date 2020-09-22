@@ -31,9 +31,9 @@ routes.post('/update_user/:id', UserController.update);
 
 routes.post('/product', ProductController.store);
 
-routes.get('/product/:id', ProductController.index);
+routes.get('/product/:id', ProductController.show);
 
-routes.get('/products', ProductController.show);
+routes.get('/products', ProductController.index);
 
 routes.delete('/product/:id', ProductController.delete);
 
@@ -41,8 +41,8 @@ routes.post('/chat/create', ChatController.initialize);
 
 routes.post('/chat/message', ChatController.store);
 
-routes.get('/chat/:id/:user', ChatController.index);
+routes.get('/chat/:id/:user', ChatController.show);
 
-routes.get('/chats/:user', ChatController.show);
+routes.get('/chats/:user', ChatController.index);
 
 export default routes;

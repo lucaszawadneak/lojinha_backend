@@ -127,7 +127,7 @@ class ChatController {
         return res.json({ message: 'Ok!' });
     }
 
-    async index(req, res) {
+    async show(req, res) {
         const { id, user } = req.params;
 
         const findChat = await Chat.findById(id)
@@ -161,7 +161,7 @@ class ChatController {
         return res.json(findChat);
     }
 
-    async show(req, res) {
+    async index(req, res) {
         const { user } = req.params;
 
         const chatData = await Chat.find({

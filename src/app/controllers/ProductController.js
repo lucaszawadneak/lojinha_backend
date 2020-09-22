@@ -22,7 +22,7 @@ class ProductController {
         return res.json(product);
     }
 
-    async index(req, res) {
+    async show(req, res) {
         const { id } = req.params;
 
         if (!id) {
@@ -42,8 +42,27 @@ class ProductController {
         return res.json(findOne);
     }
 
-    async show(req, res) {
-        const products = await Product.find()
+    async index(req, res) {
+        const { category, title } = req.query;
+
+        let query = {
+            title: {
+                $regex: title || '',
+                $options: 'i',
+            },
+        };
+
+        if (category) {
+            query = {
+                category,
+                title: {
+                    $regex: title || '',
+                    $options: 'i',
+                },
+            };
+        }
+
+        const products = await Product.find(query)
             .populate('picture')
             .populate({ path: 'user', select: '-password_hash' })
             .select('-password_hash')
