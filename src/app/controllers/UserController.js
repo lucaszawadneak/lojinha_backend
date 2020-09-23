@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs';
 import User from '../models/User';
 import File from '../models/File';
 
+import isCPFValid from '../../services/cpfValidation';
+
 class UserController {
     async store(req, res) {
         const { name, email, cpf, password, avatar_id } = req.body;
@@ -18,6 +20,12 @@ class UserController {
 
         if (!(await schema.isValid(req.body))) {
             return res.status(400).json({ error: 'Informações inválidas' });
+        }
+
+        const validCPF = isCPFValid(cpf);
+
+        if (!validCPF) {
+            return res.status(400).json({ error: 'CPF inválido!' });
         }
 
         const findOne = await User.findOne({ cpf }).catch(() =>
