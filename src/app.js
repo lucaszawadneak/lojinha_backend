@@ -2,8 +2,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import path from 'path';
-import socketIO from 'socket.io';
-import http from 'http';
 
 import routes from './routes';
 import log from './middlewares/log';
@@ -13,9 +11,6 @@ dotenv.config();
 class App {
     constructor() {
         this.app = express();
-        this.server = http.Server(this.app);
-
-        this.socket();
 
         this.middlewares();
         this.routes();
@@ -31,28 +26,10 @@ class App {
             '/files',
             express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
         );
-
-        this.app.use((req, res, next) => {
-            req.io = this.io;
-
-            next();
-        });
     }
 
     routes() {
         this.app.use(routes);
-    }
-
-    socket() {
-        this.io = socketIO(this.server);
-
-        this.io.on('connection', (socket) => {
-            console.log(socket.id + ' - User connected!');
-
-            socket.on('disconnect', () => {
-                console.log(socket.id + ' - User disconnected!');
-            });
-        });
     }
 
     mongo() {
@@ -64,6 +41,4 @@ class App {
     }
 }
 
-const newApp = new App().app;
-
-export default newApp;
+export default new App().app;

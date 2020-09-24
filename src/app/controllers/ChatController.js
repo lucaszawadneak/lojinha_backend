@@ -119,9 +119,6 @@ class ChatController {
         findChat.save();
         // salva a mensagem no banco de dados
 
-        await req.io.to(findChat.id).emit('sendMessage', messageObj);
-        // Manda a mensagem para o chat em tempo real
-
         // NOTIFICAR USUÁRIO QUE RECEBE MENSAGEM
 
         return res.json({ message: 'Ok!' });
