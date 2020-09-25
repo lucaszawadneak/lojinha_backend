@@ -24,7 +24,7 @@ import Product from '../models/Product';
 // },
 
 class ChatController {
-    async initialize(req, res) {
+    async store(req, res) {
         const { user, product, seller } = req.body;
 
         if (user === seller) {
@@ -79,7 +79,7 @@ class ChatController {
         return res.json(chat);
     }
 
-    async store(req, res) {
+    async update(req, res) {
         const { message, user, chat, sent_by } = req.body;
 
         const schema = Yup.object().shape({

@@ -37,10 +37,10 @@ routes.get('/products', ProductController.index);
 
 routes.delete('/product/:id', ProductController.delete);
 
-routes.post('/chat', ChatController.initialize);
-// cria uma sala de mensagens
+routes.post('/chat', ChatController.store);
+// cria uma sala de mensagens e registra no banco de dados
 
-routes.put('/chat', ChatController.store);
+routes.put('/chat', ChatController.update);
 // armazena mensagem enviada
 
 routes.get('/chat/:id/:user', ChatController.show);
