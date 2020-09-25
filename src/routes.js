@@ -38,8 +38,10 @@ routes.get('/products', ProductController.index);
 routes.delete('/product/:id', ProductController.delete);
 
 routes.post('/chat', ChatController.initialize);
+// cria uma sala de mensagens
 
 routes.put('/chat', ChatController.store);
+// armazena mensagem enviada
 
 routes.get('/chat/:id/:user', ChatController.show);
 
