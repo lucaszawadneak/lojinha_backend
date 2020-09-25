@@ -27,7 +27,7 @@ routes.get('/user/:id', UserController.index);
 
 routes.delete('/user/:id', UserController.delete);
 
-routes.post('/update_user/:id', UserController.update);
+routes.put('/user/:id', UserController.update);
 
 routes.post('/product', ProductController.store);
 

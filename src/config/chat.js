@@ -10,7 +10,7 @@ const io = socketIO(socketServer);
 io.on('connection', (socket) => {
     console.log('Usuário conectado!');
 
-    socket.on('join_room', ({ room, user }) => {
+    socket.on('join_room', ({ room }) => {
         socket.join(room);
     });
 

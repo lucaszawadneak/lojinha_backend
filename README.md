@@ -89,18 +89,18 @@ O projeto está rodando por padrão no url **http://localhost:3333/** (ou seja, 
 
 ## :arrow_right_hook: Disposição das rotas
 
-### *Rotas de autenticação*
+### _Rotas de autenticação_
 
 **POST /login** -
 Recebe cpf e senha do usuário para tentar logar ou pelo próprio sistema, ou pelo SIGA.
 Retorna informações do usuário como token, id, nome,cpf,email e id do avatar.
 
-### *Rotas de envio de arquivos*
+### _Rotas de envio de arquivos_
 
 **POST /files** -
 Recebe um arquivo único e o retorna id, nome da imagem e url de acesso.
 
-### *Rotas de gerenciamento de usuários*
+### _Rotas de gerenciamento de usuários_
 
 **POST /user** -
 Recebe informações de cadastro de usuário como nome, cpf, email e senha. Retorna uma mensagem de sucesso.
@@ -115,10 +115,10 @@ Recebe id de um usuário como parametro e retorna mensagem de confirmação se o
 
 Exemplo: /user/5f5fc897eb435e3b2e614df3
 
-**POST /update_user/:id** -
+**PUT /user/:id** -
 Recebe id de usuário e informações a serem atualizadas e retorna mensagem de confirmação.
 
-### *Rotas de gerenciamento de produtos*
+### _Rotas de gerenciamento de produtos_
 
 **POST /product** -
 Recebe informações de cadastro de produto como título, preço, descrição, id do avatar, categoria, id de usuário. Retorna as informações do produto já registrado na base de dados.
