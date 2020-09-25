@@ -37,9 +37,9 @@ routes.get('/products', ProductController.index);
 
 routes.delete('/product/:id', ProductController.delete);
 
-routes.post('/chat/create', ChatController.initialize);
+routes.post('/chat', ChatController.initialize);
 
-routes.post('/chat/message', ChatController.store);
+routes.put('/chat', ChatController.store);
 
 routes.get('/chat/:id/:user', ChatController.show);
 
