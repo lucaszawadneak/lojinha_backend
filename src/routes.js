@@ -10,14 +10,22 @@ import ChatController from './app/controllers/ChatController';
 
 import authVerification from './middlewares/auth';
 
+import categories from './data/categories.json';
+
 const routes = new Router();
 const upload = multer(multerConfig);
 
 routes.post('/login', SessionController.store);
 
-routes.post('/files', upload.single('file'), FileController.store);
+routes.post('/files', upload.array('files', 5), FileController.store);
+
+// routes.post('/files', upload.array('files', 5), FileController.store);
 
 routes.post('/user', UserController.store);
+
+routes.get('/categories', (_, res) => {
+    return res.json(categories);
+});
 
 routes.use(authVerification);
 

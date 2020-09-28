@@ -10,7 +10,7 @@ class ProductController {
             description: Yup.string().required(),
             category: Yup.number().positive().required(),
             user: Yup.string().required(),
-            picture: Yup.string().required(),
+            picture: Yup.array().required(),
         });
 
         if (!(await schema.isValid(req.body))) {

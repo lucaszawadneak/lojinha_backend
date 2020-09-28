@@ -143,7 +143,7 @@ Retorna informações do usuário como token, id, nome,cpf,email e id do avatar.
 ### Rotas de envio de arquivos
 
 **POST /files** -
-Recebe um arquivo único e o retorna id, nome da imagem e url de acesso.
+Recebe arquivos e retorna um array com o id das fotos no banco de dados.
 
 ### Rotas de gerenciamento de usuários
 

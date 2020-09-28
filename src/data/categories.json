@@ -1,0 +1,49 @@
+[
+    {
+        "id": 0,
+        "title": "Outros"
+    },
+    {
+        "id": 1,
+        "title": "Salgados"
+    },
+    {
+        "id": 2,
+        "title": "Doces"
+    },
+    {
+        "id": 3,
+        "title": "Artesanato"
+    },
+    {
+        "id": 4,
+        "title": "Roupas"
+    },
+    {
+        "id": 5,
+        "title": "Livros"
+    },
+    {
+        "id": 6,
+        "title": "Serviços"
+    },
+    {
+        "id": 7,
+        "title": "Eletrônicos"
+    },
+
+    {
+        "id": 8,
+        "title": "Móveis"
+    },
+
+    {
+        "id": 9,
+        "title": "Esporte"
+    },
+
+    {
+        "id": 10,
+        "title": "Calçados"
+    }
+]

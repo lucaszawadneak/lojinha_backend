@@ -22,11 +22,13 @@ const productSchema = new Scheme({
         type: Number,
         required: true,
     },
-    picture: {
-        type: Scheme.Types.ObjectId,
-        ref: 'File',
-        required: true,
-    },
+    picture: [
+        {
+            type: Scheme.Types.ObjectId,
+            ref: 'File',
+            required: true,
+        },
+    ],
     user: {
         type: Scheme.Types.ObjectId,
         ref: 'User',

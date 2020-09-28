@@ -2,19 +2,22 @@ import File from '../models/File';
 
 class FileController {
     async store(req, res) {
-        const { originalname: name, filename: path } = req.file;
+        const fileArray = [];
+        if (req.files) {
+            req.files.forEach((file) => {
+                const { originalname: name, filename: path } = file;
 
-        const file = new File({
-            name,
-            path,
-        });
-        file.save();
+                const dbFile = new File({
+                    name,
+                    path,
+                });
+                dbFile.save();
 
-        return res.json({
-            id: file.id,
-            path: file.path,
-            url: file.url,
-        });
+                fileArray.push(dbFile.id);
+            });
+        }
+
+        return res.json(fileArray);
     }
 }
 
