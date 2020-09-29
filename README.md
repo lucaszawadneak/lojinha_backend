@@ -206,5 +206,6 @@ Neste projeto foram usadas as seguintes tecnologias e ferramentas:
 -   [**jwt**](https://www.npmjs.com/package/jsonwebtoken/)
 -   [**bcryptJS**](https://www.npmjs.com/package/bcryptjs)
 -   [**multer**](https://github.com/expressjs/multer)
+-   [**socket.io**](https://socket.io/)
 
 ## :hourglass_flowing_sand: Time de desenvolvimento:
