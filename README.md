@@ -177,6 +177,20 @@ Retorna lista de todos os produtos cadastrados.
 **DELETE /product/:id** -
 Recebe id de um produto como parametro e retorna mensagem de confirmação se o produto for deletado.
 
+### Rotas de gerenciamento do chat
+
+**POST /chat** -
+Recebe informações dos comprador, vendedor e produto e cria uma sala de chat onde serão armazenadas as mensagens.
+
+**PUT /chat/** -
+Recebe id de uma sala de chat e uma mensagem e armazena no banco de dados.
+
+**GET /chat/:id/:user** -
+Recebe um id de chat e de usuário e retorna a sala de chat em questão.
+
+**GET /chats/:user** -
+Recebe um id de usuário e retorna todos os chats em que o usuário está relacionado.
+
 ## :wrench: Tecnologias usadas:
 
 Neste projeto foram usadas as seguintes tecnologias e ferramentas:
