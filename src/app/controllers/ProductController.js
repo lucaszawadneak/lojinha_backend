@@ -1,3 +1,4 @@
+import { json } from 'express';
 /* eslint-disable eqeqeq */
 import * as Yup from 'yup';
 import Product from '../models/Product';
@@ -43,7 +44,22 @@ class ProductController {
     }
 
     async index(req, res) {
-        const { category, title } = req.query;
+        const { category, title, page } = req.query;
+
+        const schema = Yup.object().shape({
+            page: Yup.number().nullable(),
+            category: Yup.number().min(0).nullable(),
+            title: Yup.string().nullable(),
+        });
+
+        if (!(await schema.isValid(req.query)))
+            return res.status(400).json({ error: 'Informações inválidas' });
+
+        let currentPage = 0;
+
+        if (page) {
+            currentPage = Math.max(0, page);
+        }
 
         let query = {
             title: {
@@ -63,10 +79,14 @@ class ProductController {
         }
 
         const products = await Product.find(query)
+            .sort([['created_at', -1]])
+            .skip(currentPage * 10)
+            .limit(10)
             .populate('picture')
             .populate({ path: 'user', select: '-password_hash' })
             .select('-password_hash')
             .catch(() => console.log('Produto não encontrado'));
+
         return res.json(products);
     }
 
@@ -78,15 +98,13 @@ class ProductController {
             console.log('Produto não encontrado!')
         );
 
-        if (!findProduct) {
+        if (!findProduct)
             return res.status(400).json({ error: 'Produto não encontrado!' });
-        }
 
-        if (findProduct.user != user_id) {
+        if (findProduct.user != user_id)
             return res
                 .status(401)
                 .json({ error: 'Você não pode deletar esse produto!' });
-        }
 
         await Product.deleteOne({ _id: id }).catch(() =>
             console.log('Erro ao deletar')
