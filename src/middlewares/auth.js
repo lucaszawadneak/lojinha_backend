@@ -13,18 +13,10 @@ export default async (req, res, next) => {
     const [, token] = authHeader.split(' ');
 
     try {
-        const decoded = await promisify(jwt.verify)(
-            token,
-            process.env.AUTH_SECRET
-        );
-
-        if (decoded) {
-            console.log('User Authenticated!');
-        }
+        await promisify(jwt.verify)(token, process.env.AUTH_SECRET);
 
         return next();
     } catch (error) {
-        console.log('Token inválido ou inexistente!');
         return res
             .status(401)
             .json({ error: 'Token inválido ou inexistente!' });
