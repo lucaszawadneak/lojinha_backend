@@ -129,6 +129,9 @@ Recebe id de um produto e retorna informações sobre o mesmo, como título,desc
 **GET /products** -
 Retorna lista de todos os produtos cadastrados.
 
+**PUT /product/:id/:user** -
+Recebe id de um produto e do usuário que quer fazer a alteração, além de dados a serem alterados e retorna uma mensagem de confirmação, se o produto for editado com sucesso.
+
 **DELETE /product/:id** -
 Recebe id de um produto como parametro e retorna mensagem de confirmação se o produto for deletado.
 

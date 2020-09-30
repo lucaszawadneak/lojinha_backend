@@ -1,5 +1,5 @@
 import app from './app';
-import socketServer from './config/chat';
+import socketServer from './services/chat';
 
 app.listen(3333);
 

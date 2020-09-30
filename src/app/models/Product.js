@@ -18,6 +18,14 @@ const productSchema = new Scheme({
         type: String,
         required: true,
     },
+    deliveryDescription: {
+        type: String,
+        required: true,
+    },
+    paymentDescription: {
+        type: String,
+        required: true,
+    },
     category: {
         type: Number,
         required: true,

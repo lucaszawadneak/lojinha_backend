@@ -39,6 +39,10 @@ routes.put('/user/:id', UserController.update);
 
 routes.post('/product', ProductController.store);
 
+routes.put('/product/:id/:user', ProductController.update);
+
+// recebe o id do produto e do usuário que quer editar
+
 routes.get('/product/:id', ProductController.show);
 
 routes.get('/products', ProductController.index);

@@ -12,10 +12,14 @@ class ProductController {
             category: Yup.number().positive().required(),
             user: Yup.string().required(),
             picture: Yup.array().required(),
+            deliveryDescription: Yup.string().required().max(250),
+            paymentDescription: Yup.string().required().max(60),
         });
 
         if (!(await schema.isValid(req.body))) {
-            return res.status(400).json({ error: 'Informações inválidas' });
+            return res
+                .status(400)
+                .json({ error: 'Informações inválidas ou faltando!' });
         }
 
         const product = new Product(req.body);
@@ -88,6 +92,43 @@ class ProductController {
             .catch(() => console.log('Produto não encontrado'));
 
         return res.json(products);
+    }
+
+    async update(req, res) {
+        const { id, user } = req.params;
+
+        const schema = Yup.object().shape({
+            title: Yup.string().nullable(),
+            price: Yup.string().nullable(),
+            description: Yup.string().nullable(),
+            category: Yup.number().positive().nullable(),
+            picture: Yup.array().nullable(),
+            deliveryDescription: Yup.string().nullable().max(250),
+            paymentDescription: Yup.string().nullable().max(60),
+        });
+
+        if (!(await schema.isValid(req.body))) {
+            return res.status(400).json({ error: 'Informações inválidas' });
+        }
+
+        const product = await Product.findById(id).catch(() =>
+            console.log('Produto não encontrado')
+        );
+
+        if (!product) {
+            return res.status(400).json({ error: 'Produto não encontrado' });
+        }
+
+        if (product.user != user) {
+            return res
+                .status(401)
+                .json({ error: 'Você não tem permissão para editar isso!' });
+        }
+
+        await product.updateOne(req.body);
+        product.save();
+
+        return res.json({ message: 'ok' });
     }
 
     async delete(req, res) {
