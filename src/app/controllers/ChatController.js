@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import * as Yup from 'yup';
 
+import { format } from 'date-fns';
+
 import Chat from '../models/Chat';
 import User from '../models/User';
 import Product from '../models/Product';
@@ -16,6 +18,14 @@ import Product from '../models/Product';
 // },
 // date: {
 //     type: Date,
+//     required: true,
+// },
+// day: {
+//     type: String,
+//     required: true,
+// },
+// hour: {
+//     type: String,
 //     required: true,
 // },
 // sent_by: {
@@ -58,6 +68,8 @@ class ChatController {
             return res.status(404).json({ error: 'Produto não encontrado' });
         }
 
+        const currentDate = new Date();
+
         const chat = new Chat({
             buyer: user,
             seller,
@@ -68,7 +80,9 @@ class ChatController {
                     id: mongoose.Types.ObjectId(),
                     content:
                         'Bem vindo ao chat da lojinha! Tome cuidado com quais informações com quais informações compartilhar!',
-                    date: Date.now,
+                    date: currentDate,
+                    day: format(currentDate, 'dd/MM/yyyy'),
+                    hour: format(currentDate, 'kk:mm'),
                     sent_by: 'chat',
                 },
             ],
@@ -105,10 +119,14 @@ class ChatController {
                 .json({ error: 'Você não pode acessar esse chat!' });
         }
 
+        const currentDate = new Date();
+
         const messageObj = {
             id: mongoose.Types.ObjectId(),
             content: message,
-            date: new Date(),
+            date: currentDate,
+            day: format(currentDate, 'dd/MM/yyyy'),
+            hour: format(currentDate, 'kk:mm'),
             sent_by,
         };
 
