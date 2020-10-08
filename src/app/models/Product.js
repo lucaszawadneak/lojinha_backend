@@ -2,9 +2,6 @@ import mongoose from 'mongoose';
 
 const Scheme = mongoose.Schema;
 
-// INCOMPLETO
-// FALTAM MÉTODOS DE PAGAMENTO E ENTREGA
-
 const productSchema = new Scheme({
     title: {
         type: String,

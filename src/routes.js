@@ -19,13 +19,15 @@ routes.post('/login', SessionController.store);
 
 routes.post('/files', upload.array('files', 5), FileController.store);
 
-// routes.post('/files', upload.array('files', 5), FileController.store);
-
 routes.post('/user', UserController.store);
 
 routes.get('/categories', (_, res) => {
     return res.json(categories);
 });
+
+routes.get('/products', ProductController.index);
+
+routes.get('/product/:id', ProductController.show);
 
 routes.use(authVerification);
 
@@ -42,10 +44,6 @@ routes.post('/product', ProductController.store);
 routes.put('/product/:id/:user', ProductController.update);
 
 // recebe o id do produto e do usuário que quer editar
-
-routes.get('/product/:id', ProductController.show);
-
-routes.get('/products', ProductController.index);
 
 routes.delete('/product/:id', ProductController.delete);
 

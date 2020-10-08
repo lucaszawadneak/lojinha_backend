@@ -1,5 +1,3 @@
-import { json } from 'express';
-/* eslint-disable eqeqeq */
 import * as Yup from 'yup';
 import Product from '../models/Product';
 
