@@ -133,7 +133,7 @@ class ChatController {
         findChat.messages.push(messageObj);
         findChat.messagesLenght += 1;
 
-        findChat.last_message = new Date();
+        findChat.last_message = messageObj;
         findChat.save();
         // salva a mensagem no banco de dados
 
@@ -195,6 +195,7 @@ class ChatController {
                 select: ['-user', '-description', '-created-at'],
                 populate: 'picture',
             })
+            .select('-messages')
             .catch(() => console.log('Usuário não possui chats!'));
         // Procura por chats onde o usuário é ou comprador ou vendedor ($or)
 

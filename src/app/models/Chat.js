@@ -23,8 +23,31 @@ const chatSchena = new Scheme({
         default: Date.now,
     },
     last_message: {
-        type: Date,
-        default: Date.now,
+        id: {
+            type: String,
+            default: mongoose.Types.ObjectId(),
+        },
+        content: {
+            type: String,
+            required: false,
+        },
+        date: {
+            type: Date,
+            required: false,
+        },
+        day: {
+            type: String,
+            required: false,
+        },
+        hour: {
+            type: String,
+            required: false,
+        },
+        sent_by: {
+            type: String,
+            required: false,
+        },
+        default: {},
     },
     messages: {
         type: Array,
