@@ -10,16 +10,19 @@ const io = socketIO(socketServer);
 io.on('connection', (socket) => {
     console.log('Usuário conectado!');
 
-    socket.on('join_room', ({ room }) => {
+    socket.on('join_room', (room) => {
         socket.join(room);
     });
 
     socket.on('message', (data) => {
-        socket.to(data.room).emit('receivedMessage', data.message);
+        socket.to(data.room).emit('receivedMessage', {
+            message: data.message,
+            sent_by: data.sent_by,
+        });
     });
 
     socket.on('disconnect', () => {
-        socket.leaveAll();
+        socket.disconnect();
     });
 });
 
