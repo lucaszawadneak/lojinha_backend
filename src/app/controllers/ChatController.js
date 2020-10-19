@@ -79,7 +79,7 @@ class ChatController {
                 {
                     id: mongoose.Types.ObjectId(),
                     content:
-                        'Bem vindo ao chat da lojinha! Tome cuidado com quais informações com quais informações compartilhar!',
+                        'Para sua segurança, cuidado ao expor informações e dados pessoais.',
                     date: currentDate,
                     day: format(currentDate, 'dd/MM/yyyy'),
                     hour: format(currentDate, 'kk:mm'),
@@ -130,7 +130,7 @@ class ChatController {
             sent_by,
         };
 
-        findChat.messages.push(messageObj);
+        findChat.messages.splice(0, 0, messageObj);
         findChat.messagesLenght += 1;
 
         findChat.last_message = messageObj;
