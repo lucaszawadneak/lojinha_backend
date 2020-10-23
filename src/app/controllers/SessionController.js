@@ -9,9 +9,9 @@ class SessionController {
     async store(req, res) {
         const { cpf, password } = req.body;
 
-        const findUser = await User.findOne({ cpf }).catch(() =>
-            console.log('Usuário não cadastrado')
-        );
+        const findUser = await User.findOne({ cpf })
+            .populate('avatar')
+            .catch(() => console.log('Usuário não cadastrado'));
 
         if (findUser) {
             const { password_hash } = findUser;
@@ -25,11 +25,11 @@ class SessionController {
                         token: jwt.sign({ id: cpf }, process.env.AUTH_SECRET, {
                             expiresIn: authConfig.expiresIn,
                         }),
-                        id: findUser.id,
+                        _id: findUser.id,
                         name: findUser.name,
                         cpf: findUser.cpf,
                         email: findUser.email,
-                        avatar_id: findUser.avatar_id,
+                        avatar: findUser.avatar,
                     });
                 }
                 return res

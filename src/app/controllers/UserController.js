@@ -15,7 +15,7 @@ class UserController {
             cpf: Yup.string().required(),
             email: Yup.string().required(),
             password: Yup.string().required(),
-            avatar_id: Yup.string().nullable(),
+            avatar_id: Yup.array().nullable(),
         });
 
         if (!(await schema.isValid(req.body))) {
@@ -64,7 +64,7 @@ class UserController {
             name,
             email,
             cpf,
-            avatar: avatar_id,
+            avatar: avatar_id[0],
         });
         user.save();
 

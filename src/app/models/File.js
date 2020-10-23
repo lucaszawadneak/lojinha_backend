@@ -24,7 +24,7 @@ fileSchema
         foreignField: 'url',
     })
     .get(function () {
-        return `http://localhost:3333/files/${this.path}`;
+        return `http://192.168.25.38:3333/files/${this.path}`;
     });
 
 fileSchema.set('toObject', { virtuals: true });
