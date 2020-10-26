@@ -106,10 +106,12 @@ class UserController {
             cpf: Yup.string().nullable(),
             email: Yup.string().nullable(),
             oldPassword: Yup.string().nullable(),
-            newPassword: Yup.string().when('$oldPassword', {
-                is: true,
-                then: (s) => s.required(),
-            }),
+            newPassword: Yup.string()
+                .when('$oldPassword', {
+                    is: true,
+                    then: (s) => s.required(),
+                })
+                .nullable(),
             avatar_id: Yup.string().nullable(),
         });
 
