@@ -13,6 +13,8 @@ class SessionController {
             .populate('avatar')
             .catch(() => console.log('Usuário não cadastrado'));
 
+        // PROCURA UM USUÁRIO COM CPF REGISTRADO NO BACK
+        // SE NÃO ACHAR, OU SE O USUÁRIO NÃO POSSUIR SENHA REGISTRADA, FAZ O LOGIN PELO SIGA
         if (findUser) {
             const { password_hash } = findUser;
             if (findUser.password_hash) {
@@ -22,9 +24,13 @@ class SessionController {
                 );
                 if (validPassword) {
                     return res.json({
-                        token: jwt.sign({ id: cpf }, process.env.AUTH_SECRET, {
-                            expiresIn: authConfig.expiresIn,
-                        }),
+                        token: jwt.sign(
+                            { id: findUser.id },
+                            process.env.AUTH_SECRET,
+                            {
+                                expiresIn: authConfig.expiresIn,
+                            }
+                        ),
                         _id: findUser.id,
                         name: findUser.name,
                         cpf: findUser.cpf,
@@ -48,33 +54,57 @@ class SessionController {
 
         if (!auth) {
             return res
-                .status(400)
+                .status(401)
                 .json({ error: 'Occoreu um erro com a sua autenticação' });
         }
 
         const { status, data } = auth;
-        const { documento, nome } = data;
+        const { documento, nome, usuarioCategorias } = data;
 
         if (status === 200) {
-            const findOne = await User.findOne({ cpf: documento });
-            if (!findOne) {
-                const user = new User({
-                    name: nome,
+            let user = await User.findOne({ cpf: documento });
+            // SE O USUÁRIO NÃO FOR REGISTRADO NA BASE DE DADOS, ELE O FARÁ
+            if (!user) {
+                let isStudent = false;
+                const studentType = usuarioCategorias[0].descricaoNivel.substring(
+                    0,
+                    8
+                );
+                if (studentType === 'Discente') {
+                    isStudent = true;
+                }
+
+                // CORRIGE O NOME PARA PRIMEIRA LETRA DE CADA PALAVRA SER MAIUSCULÁ
+                const nameInLowerCase = nome.toLowerCase().split(' ');
+                let correctedName = [];
+                nameInLowerCase.forEach((item) => {
+                    correctedName.push(
+                        item.charAt(0).toUpperCase() + item.substring(1)
+                    );
+                });
+
+                correctedName = correctedName.join(' ');
+
+                user = new User({
+                    name: correctedName,
                     cpf: documento,
+                    student: isStudent,
                 });
                 user.save();
             }
             return res.json({
-                cpf: auth.data.documento,
-                nome: auth.data.nome,
-                email: auth.data.email,
-                token: jwt.sign({ id: documento }, process.env.AUTH_SECRET, {
+                _id: user.id,
+                student: user.student,
+                cpf: user.cpf,
+                nome: user.name,
+                email: user.email,
+                token: jwt.sign({ id: user.id }, process.env.AUTH_SECRET, {
                     expiresIn: authConfig.expiresIn,
                 }),
             });
         }
         return res
-            .status(400)
+            .status(401)
             .json({ error: 'Occoreu um erro com a sua autenticação' });
     }
 }

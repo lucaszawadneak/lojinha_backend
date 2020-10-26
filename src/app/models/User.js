@@ -13,7 +13,7 @@ const userSchema = new Scheme({
     },
     email: {
         type: String,
-        required: true,
+        required: false,
     },
     password_hash: String,
     avatar: {
@@ -23,6 +23,10 @@ const userSchema = new Scheme({
     created_at: {
         type: Date,
         default: Date.now,
+    },
+    student: {
+        type: Boolean,
+        default: false,
     },
 });
 
