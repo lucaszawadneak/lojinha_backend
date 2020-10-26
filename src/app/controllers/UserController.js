@@ -102,10 +102,10 @@ class UserController {
         } = req.body;
 
         const schema = Yup.object().shape({
-            name: Yup.string(),
-            cpf: Yup.string(),
-            email: Yup.string(),
-            oldPassword: Yup.string(),
+            name: Yup.string().nullable(),
+            cpf: Yup.string().nullable(),
+            email: Yup.string().nullable(),
+            oldPassword: Yup.string().nullable(),
             newPassword: Yup.string().when('$oldPassword', {
                 is: true,
                 then: (s) => s.required(),
@@ -114,7 +114,7 @@ class UserController {
         });
 
         if (!(await schema.isValid(req.body))) {
-            return res.status(400).json({ error: 'Informações inválidas' });
+            return res.status(400).json({ error: 'Informações inválidas!!' });
         }
 
         const findOne = await User.findById(id).catch(() =>
@@ -124,17 +124,25 @@ class UserController {
         if (!findOne) {
             return res.status(400).json({ error: 'Usuário não encontrado!' });
         }
-        await File.findById(avatar_id).catch(() =>
-            console.log('Imagem não encontradaa!')
-        );
+        if (avatar_id) {
+            const found = await File.findById(avatar_id).catch(() =>
+                console.log('Imagem não encontradaa!')
+            );
+
+            if (found) {
+                findOne.avatar = avatar_id;
+            }
+        }
 
         if (email) {
+            console.log(email);
             const emailSearch = await User.findOne({ email }).catch(() =>
                 console.log('Email não encontrado')
             );
             if (emailSearch) {
                 return res.status(400).json({ error: 'Email já em uso' });
             }
+            findOne.email = email;
         }
 
         if (newPassword) {

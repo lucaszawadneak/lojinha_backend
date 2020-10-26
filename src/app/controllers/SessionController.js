@@ -94,9 +94,11 @@ class SessionController {
             }
             return res.json({
                 _id: user.id,
+                avatar: user.avatar,
                 student: user.student,
+                siga_linked: true,
                 cpf: user.cpf,
-                nome: user.name,
+                name: user.name,
                 email: user.email,
                 token: jwt.sign({ id: user.id }, process.env.AUTH_SECRET, {
                     expiresIn: authConfig.expiresIn,

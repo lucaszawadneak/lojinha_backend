@@ -28,6 +28,10 @@ const userSchema = new Scheme({
         type: Boolean,
         default: false,
     },
+    siga_linked: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const model = mongoose.model('User', userSchema);
