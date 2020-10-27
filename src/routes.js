@@ -8,6 +8,7 @@ import UserController from './app/controllers/UserController';
 import ProductController from './app/controllers/ProductController';
 import ChatController from './app/controllers/ChatController';
 import VerificationController from './app/controllers/VerificationController';
+import ResetPasswordController from './app/controllers/ResetPasswordController';
 
 import authVerification from './middlewares/auth';
 
@@ -58,8 +59,12 @@ routes.get('/chat/:id/:user', ChatController.show);
 
 routes.get('/chats/:user', ChatController.index);
 
-routes.post('/generate_code/:id', VerificationController.generate);
+routes.post('/generate_code/:id', VerificationController.store);
 
-routes.post('/verify_code', VerificationController.verify);
+routes.put('/verify_code', VerificationController.update);
+
+routes.post('/request_pass_reset', ResetPasswordController.store);
+
+routes.put('/verify_pass_reset', ResetPasswordController.update);
 
 export default routes;

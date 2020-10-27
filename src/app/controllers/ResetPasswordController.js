@@ -1,16 +1,17 @@
 import { isPast, formatISO, isValid, addMinutes } from 'date-fns';
 import nodemailer from 'nodemailer';
+import bcrypt from 'bcryptjs';
 
 import User from '../models/User';
 
-class VerificationController {
+class ResetPasswordController {
     async store(req, res) {
-        const { id } = req.params;
+        const { email } = req.body;
 
-        if (!id) {
+        if (!email) {
             return res.status(400).json({ error: 'Informações inválidas' });
         }
-        const findUser = await User.findById(id).catch(() =>
+        const findUser = await User.findOne({ email }).catch(() =>
             console.log('Usuário não encontrado!')
         );
 
@@ -18,16 +19,11 @@ class VerificationController {
             return res.status(400).json({ error: 'Usuário não encontrado!' });
         }
 
-        if (!findUser.email) {
-            return res
-                .status(400)
-                .json({ error: 'Usuário não cadastrou email!' });
-        }
-
-        if (findUser.mail_verification.isVerified) {
-            return res
-                .status(400)
-                .json({ error: 'Usuário já verificou o email!' });
+        if (!findUser.password_hash) {
+            return res.status(400).json({
+                error:
+                    'Sua conta está ligada ao SIGA! Para recuperar sua senha, faça o processo nessa plataforma.',
+            });
         }
 
         const currentDate = new Date();
@@ -39,7 +35,12 @@ class VerificationController {
             Number(Math.floor(Math.random() * (990000 - 100000) + 100000)) +
             Number(currentDate.getMilliseconds());
 
-        const data = { code, expires_at, isVerified: false };
+        // Utiliza o mesmo procedimento de verificação do email para recuperar a senha
+        const data = {
+            code,
+            expires_at,
+            isVerified: findUser.mail_verification.isVerified,
+        };
 
         findUser.mail_verification = data;
         findUser.save();
@@ -57,9 +58,10 @@ class VerificationController {
             .sendMail({
                 from: process.env.EMAIL_USER,
                 to: findUser.email,
-                subject: 'Verificação de email app lojinha - UFPR',
-                html: `<h1>Obrigado por se cadastrar no app lojinha da UFPR</h1>
-                <p>Coloque o seguinte código no app:</p><strong>${code}</strong></br>`,
+                subject: 'Recuperação de senha - Lojinha UFPR',
+                html: `<h3>Você fez um pedido de recuperação de senha do app Lojinha.</h3>
+                <p>Coloque o seguinte código no app:</p> <strong>${code}</strong></br>
+                <span>Se você não fez esse pedido, apenas ignore.</span>`,
             })
             .then(() => {
                 return res.json({ message: 'ok!' });
@@ -70,9 +72,9 @@ class VerificationController {
     }
 
     async update(req, res) {
-        const { verificationCode, user } = req.body;
+        const { verificationCode, user, password } = req.body;
 
-        if (!verificationCode || !user) {
+        if (!verificationCode || !user || !password) {
             return res.status(400).json({ error: 'Informações inválidas!' });
         }
 
@@ -98,7 +100,10 @@ class VerificationController {
             return res.status(400).json({ error: 'Código inválido!' });
         }
 
-        findUser.mail_verification.isVerified = true;
+        const salt = await bcrypt.genSalt(10);
+        const password_hash = bcrypt.hashSync(password, salt);
+
+        findUser.password_hash = password_hash;
         findUser.save();
 
         return res.json({ message: 'ok!' });
@@ -106,4 +111,4 @@ class VerificationController {
     // async update(req, res) {}
 }
 
-export default new VerificationController();
+export default new ResetPasswordController();
