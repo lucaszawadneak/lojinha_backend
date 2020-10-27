@@ -64,7 +64,7 @@ class UserController {
             name,
             email,
             cpf,
-            avatar: avatar_id[0],
+            avatar: avatar_id ? avatar_id[0] : null,
         });
         user.save();
 

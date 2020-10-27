@@ -5,6 +5,7 @@ import User from '../models/User';
 import siga from '../../services/api';
 import authConfig from '../../config/auth';
 
+import VerificationController from './VerificationController';
 class SessionController {
     async store(req, res) {
         const { cpf, password } = req.body;
@@ -36,6 +37,8 @@ class SessionController {
                         cpf: findUser.cpf,
                         email: findUser.email,
                         avatar: findUser.avatar,
+                        mail_verification:
+                            findUser.mail_verification.isVerified,
                     });
                 }
                 return res
@@ -50,7 +53,7 @@ class SessionController {
                 senha: password,
                 token: process.env.SIGA_TOKEN,
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err.response.data));
 
         if (!auth) {
             return res

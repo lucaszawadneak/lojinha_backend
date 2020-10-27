@@ -32,6 +32,14 @@ const userSchema = new Scheme({
         type: Boolean,
         default: false,
     },
+    mail_verification: {
+        isVerified: {
+            type: Boolean,
+            default: false,
+        },
+        code: Number,
+        expires_at: Date,
+    },
 });
 
 const model = mongoose.model('User', userSchema);

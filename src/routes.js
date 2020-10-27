@@ -7,6 +7,7 @@ import FileController from './app/controllers/FileController';
 import UserController from './app/controllers/UserController';
 import ProductController from './app/controllers/ProductController';
 import ChatController from './app/controllers/ChatController';
+import VerificationController from './app/controllers/VerificationController';
 
 import authVerification from './middlewares/auth';
 
@@ -56,5 +57,9 @@ routes.put('/chat', ChatController.update);
 routes.get('/chat/:id/:user', ChatController.show);
 
 routes.get('/chats/:user', ChatController.index);
+
+routes.post('/generate_code/:id', VerificationController.generate);
+
+routes.post('/verify_code', VerificationController.verify);
 
 export default routes;
