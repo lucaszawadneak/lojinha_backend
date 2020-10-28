@@ -194,6 +194,22 @@ Recebe um id de chat e de usuário e retorna a sala de chat em questão.
 **GET /chats/:user** -
 Recebe um id de usuário e retorna todos os chats em que o usuário está relacionado.
 
+### Rotas de verificação de email
+
+**POST /generate_code/:id** -
+Recebe o id do usuário e associa um código gerado ao mesmo, enviando esse para seu email.
+
+**PUT /veirfy_code/:id** -
+Recebe o id do usuário e o código enviado por email e retorna se a verificação foi feita corretamente.
+
+### Rotas de recuperação de senha
+
+**POST /request_pass_reset** -
+Recebe o email do usuário e lá manda um código para a recuperação da senha.
+
+**PUT /veirfy_code/:id** -
+Recebe o código do usuário e a nova senha, e assim retorna se a recuperação da senha foi feita com sucesso.
+
 ## :wrench: Tecnologias usadas:
 
 Neste projeto foram usadas as seguintes tecnologias e ferramentas:

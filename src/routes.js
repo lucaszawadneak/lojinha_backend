@@ -33,6 +33,10 @@ routes.get('/product/:id', ProductController.show);
 
 routes.use(authVerification);
 
+routes.post('/request_pass_reset', ResetPasswordController.store);
+
+routes.put('/verify_pass_reset', ResetPasswordController.update);
+
 // todas as rotas abaixo precisam da que o usuário mande um token válido para funcionar
 
 routes.get('/user/:id', UserController.index);
@@ -62,9 +66,5 @@ routes.get('/chats/:user', ChatController.index);
 routes.post('/generate_code/:id', VerificationController.store);
 
 routes.put('/verify_code', VerificationController.update);
-
-routes.post('/request_pass_reset', ResetPasswordController.store);
-
-routes.put('/verify_pass_reset', ResetPasswordController.update);
 
 export default routes;
