@@ -145,6 +145,9 @@ class UserController {
                 return res.status(400).json({ error: 'Email já em uso' });
             }
             findOne.email = email;
+            findOne.mail_verification = {
+                isVerified: false,
+            };
         }
 
         if (newPassword) {

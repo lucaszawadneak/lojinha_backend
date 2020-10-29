@@ -40,6 +40,7 @@ const userSchema = new Scheme({
         code: Number,
         expires_at: Date,
     },
+    notification_token: String,
 });
 
 const model = mongoose.model('User', userSchema);

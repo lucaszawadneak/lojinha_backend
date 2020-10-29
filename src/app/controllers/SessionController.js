@@ -1,14 +1,14 @@
 import jwt from 'jsonwebtoken';
+import { Expo } from 'expo-server-sdk';
 
 import bcrypt from 'bcryptjs';
 import User from '../models/User';
 import siga from '../../services/api';
 import authConfig from '../../config/auth';
 
-import VerificationController from './VerificationController';
 class SessionController {
     async store(req, res) {
-        const { cpf, password } = req.body;
+        const { cpf, password, notificationToken } = req.body;
 
         const findUser = await User.findOne({ cpf })
             .populate('avatar')
@@ -17,6 +17,13 @@ class SessionController {
         // PROCURA UM USUÁRIO COM CPF REGISTRADO NO BACK
         // SE NÃO ACHAR, OU SE O USUÁRIO NÃO POSSUIR SENHA REGISTRADA, FAZ O LOGIN PELO SIGA
         if (findUser) {
+            if (
+                !findUser.notification_token &&
+                Expo.isExpoPushToken(notificationToken)
+            ) {
+                findUser.notification_token = notificationToken;
+                findUser.save();
+            }
             const { password_hash } = findUser;
             if (findUser.password_hash) {
                 const validPassword = await bcrypt.compareSync(
@@ -88,10 +95,15 @@ class SessionController {
 
                 correctedName = correctedName.join(' ');
 
+                const notToken = Expo.isExpoPushToken(notificationToken)
+                    ? notificationToken
+                    : null;
+
                 user = new User({
                     name: correctedName,
                     cpf: documento,
                     student: isStudent,
+                    notification_token: notToken,
                 });
                 user.save();
             }

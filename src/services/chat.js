@@ -7,6 +7,8 @@ const socketServer = http.createServer(app);
 
 const io = socketIO(socketServer);
 
+const onlineUsers = [];
+
 io.on('connection', (socket) => {
     console.log('Usuário conectado!');
 

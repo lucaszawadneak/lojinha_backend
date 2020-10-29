@@ -31,11 +31,11 @@ routes.get('/products', ProductController.index);
 
 routes.get('/product/:id', ProductController.show);
 
-routes.use(authVerification);
-
 routes.post('/request_pass_reset', ResetPasswordController.store);
 
 routes.put('/verify_pass_reset', ResetPasswordController.update);
+
+routes.use(authVerification);
 
 // todas as rotas abaixo precisam da que o usuário mande um token válido para funcionar
 

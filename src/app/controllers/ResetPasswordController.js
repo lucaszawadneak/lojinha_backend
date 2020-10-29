@@ -1,4 +1,4 @@
-import { isPast, formatISO, isValid, addMinutes } from 'date-fns';
+import { isPast, formatISO, isValid, addMinutes, format } from 'date-fns';
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcryptjs';
 
@@ -64,7 +64,7 @@ class ResetPasswordController {
                 <span>Se você não fez esse pedido, apenas ignore.</span>`,
             })
             .then(() => {
-                return res.json({ message: 'ok!' });
+                return res.json({ expires_at });
             })
             .catch((err) => res.json(err));
 
@@ -72,13 +72,15 @@ class ResetPasswordController {
     }
 
     async update(req, res) {
-        const { verificationCode, user, password } = req.body;
+        const { verificationCode, email, password } = req.body;
 
-        if (!verificationCode || !user || !password) {
+        if (!verificationCode || !password || !email) {
             return res.status(400).json({ error: 'Informações inválidas!' });
         }
 
-        const findUser = await User.findById(user);
+        const findUser = await User.findOne({
+            email,
+        });
 
         if (!findUser) {
             return res.status(400).json({ error: 'Usuário não encontrado!' });
