@@ -32,6 +32,8 @@ class App {
         this.app.use(routes);
     }
 
+    notificationChunks() {}
+
     mongo() {
         this.connect = mongoose.connect(process.env.API_URL, {
             useNewUrlParser: true,

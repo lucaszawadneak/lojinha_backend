@@ -1,4 +1,4 @@
-import { isPast, formatISO, isValid, addMinutes, format } from 'date-fns';
+import { isPast, formatISO, isValid, addMinutes } from 'date-fns';
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcryptjs';
 

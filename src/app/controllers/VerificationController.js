@@ -64,7 +64,7 @@ class VerificationController {
             .then(() => {
                 return res.json({ message: 'ok!' });
             })
-            .catch((err) => res.json(err));
+            .catch((err) => res.json({ error: err }));
 
         return 0;
     }
