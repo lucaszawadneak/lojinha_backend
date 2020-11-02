@@ -14,15 +14,17 @@ class NotificationController {
     }
 
     async sendChunk() {
-        const chunks = Expo.chunkPushNotifications(messages);
+        if (messages[0]) {
+            const chunks = Expo.chunkPushNotifications(messages);
 
-        try {
-            await chunks.forEach(async (chunk) => {
-                await Expo.sendPushNotificationsAsync(chunk);
-            });
-            messages = [];
-        } catch (err) {
-            console.log(err);
+            try {
+                await chunks.forEach(async (chunk) => {
+                    await Expo.sendPushNotificationsAsync(chunk);
+                });
+                messages = [];
+            } catch (err) {
+                console.log(err);
+            }
         }
     }
 }

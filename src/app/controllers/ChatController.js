@@ -7,6 +7,8 @@ import Chat from '../models/Chat';
 import User from '../models/User';
 import Product from '../models/Product';
 
+import NotificationController from './NotificationController';
+
 // OBJETO MENSAGEM
 // id: {
 //     type: String,
@@ -105,15 +107,16 @@ class ChatController {
             return res.status(400).json({ error: 'Mensagem inválida!' });
         }
 
-        const findChat = await Chat.findById(chat).catch(() =>
-            console.log('Chat não encontrado!')
-        );
+        const findChat = await (await Chat.findById(chat))
+            .populate({ path: 'buyer', select: ['id', 'notification_token'] })
+            .populate({ path: 'seller', select: ['id', 'notification_token'] })
+            .catch(() => console.log('Chat não encontrado!'));
 
         if (!findChat) {
             return res.status(404).json({ error: 'Chat não encontrado!' });
         }
 
-        if (findChat.buyer != user && findChat.seller != user) {
+        if (findChat.buyer.id != user && findChat.seller.id != user) {
             return res
                 .status(401)
                 .json({ error: 'Você não pode acessar esse chat!' });
@@ -138,6 +141,20 @@ class ChatController {
         // salva a mensagem no banco de dados
 
         // NOTIFICAR USUÁRIO QUE RECEBE MENSAGEM
+        let expoToken = null;
+
+        if (sent_by === 'buyer') {
+            expoToken = findChat.buyer.notification_token;
+        } else {
+            expoToken = findChat.seller.notification_token;
+        }
+
+        const notification = {
+            expoToken,
+            message,
+        };
+
+        NotificationController.requestSend(notification);
 
         return res.json({ message: 'Ok!' });
     }

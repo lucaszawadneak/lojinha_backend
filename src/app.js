@@ -6,6 +6,8 @@ import path from 'path';
 import routes from './routes';
 import log from './middlewares/log';
 
+import NotificationController from './app/controllers/NotificationController';
+
 dotenv.config();
 
 class App {
@@ -15,6 +17,7 @@ class App {
         this.middlewares();
         this.routes();
         this.mongo();
+        this.notificationChunks();
     }
 
     middlewares() {
@@ -32,7 +35,12 @@ class App {
         this.app.use(routes);
     }
 
-    notificationChunks() {}
+    async notificationChunks() {
+        setInterval(async () => {
+            console.log('Sending notifications!');
+            await NotificationController.sendChunk();
+        }, 60000);
+    }
 
     mongo() {
         this.connect = mongoose.connect(process.env.API_URL, {
