@@ -107,7 +107,7 @@ class ChatController {
             return res.status(400).json({ error: 'Mensagem inválida!' });
         }
 
-        const findChat = await (await Chat.findById(chat))
+        const findChat = await Chat.findById(chat)
             .populate({ path: 'buyer', select: ['id', 'notification_token'] })
             .populate({ path: 'seller', select: ['id', 'notification_token'] })
             .catch(() => console.log('Chat não encontrado!'));
@@ -144,9 +144,9 @@ class ChatController {
         let expoToken = null;
 
         if (sent_by === 'buyer') {
-            expoToken = findChat.buyer.notification_token;
-        } else {
             expoToken = findChat.seller.notification_token;
+        } else {
+            expoToken = findChat.buyer.notification_token;
         }
 
         const notification = {

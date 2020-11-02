@@ -1,5 +1,7 @@
 import { Expo } from 'expo-server-sdk';
 
+let expo = new Expo();
+
 let messages = [];
 
 class NotificationController {
@@ -15,11 +17,12 @@ class NotificationController {
 
     async sendChunk() {
         if (messages[0]) {
-            const chunks = Expo.chunkPushNotifications(messages);
+            console.log(messages);
+            const chunks = expo.chunkPushNotifications(messages);
 
             try {
                 await chunks.forEach(async (chunk) => {
-                    await Expo.sendPushNotificationsAsync(chunk);
+                    await expo.sendPushNotificationsAsync(chunk);
                 });
                 messages = [];
             } catch (err) {
