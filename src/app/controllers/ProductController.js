@@ -46,7 +46,7 @@ class ProductController {
     }
 
     async index(req, res) {
-        const { category, title, page } = req.query;
+        const { category, title, page, user } = req.query;
 
         const schema = Yup.object().shape({
             page: Yup.number().nullable(),
@@ -78,6 +78,9 @@ class ProductController {
                     $options: 'i',
                 },
             };
+        }
+        if (user) {
+            query = { ...query, user };
         }
 
         const products = await Product.find(query)

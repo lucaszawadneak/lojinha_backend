@@ -195,26 +195,71 @@ class ChatController {
 
     async index(req, res) {
         const { user } = req.params;
+        const { selling, buying } = req.query;
 
-        const chatData = await Chat.find({
-            $or: [{ buyer: user }, { seller: user }],
-        })
-            .populate({
-                path: 'buyer',
-                select: ['-password_hash', '-created-at'],
+        let chatData = null;
+
+        if (buying && selling) {
+            chatData = await Chat.find({
+                $or: [{ buyer: user }, { seller: user }],
             })
-            .populate({
-                path: 'seller',
-                select: ['-password_hash', '-created-at'],
+                .populate({
+                    path: 'buyer',
+                    select: ['-password_hash', '-created-at'],
+                })
+                .populate({
+                    path: 'seller',
+                    select: ['-password_hash', '-created-at'],
+                })
+                .populate({
+                    path: 'product',
+                    select: ['-user', '-description', '-created-at'],
+                    populate: 'picture',
+                })
+                .select('-messages')
+                .catch(() => console.log('Usuário não possui chats!'));
+            // Procura por chats onde o usuário é ou comprador ou vendedor ($or)
+        } else if (buying && !selling) {
+            chatData = await Chat.find({
+                buyer: user,
             })
-            .populate({
-                path: 'product',
-                select: ['-user', '-description', '-created-at'],
-                populate: 'picture',
+                .populate({
+                    path: 'buyer',
+                    select: ['-password_hash', '-created-at'],
+                })
+                .populate({
+                    path: 'seller',
+                    select: ['-password_hash', '-created-at'],
+                })
+                .populate({
+                    path: 'product',
+                    select: ['-user', '-description', '-created-at'],
+                    populate: 'picture',
+                })
+                .select('-messages')
+                .catch(() =>
+                    console.log('Usuário não possui chats de compra!')
+                );
+        } else if (!buying && selling) {
+            chatData = await Chat.find({
+                seller: user,
             })
-            .select('-messages')
-            .catch(() => console.log('Usuário não possui chats!'));
-        // Procura por chats onde o usuário é ou comprador ou vendedor ($or)
+                .populate({
+                    path: 'buyer',
+                    select: ['-password_hash', '-created-at'],
+                })
+                .populate({
+                    path: 'seller',
+                    select: ['-password_hash', '-created-at'],
+                })
+                .populate({
+                    path: 'product',
+                    select: ['-user', '-description', '-created-at'],
+                    populate: 'picture',
+                })
+                .select('-messages')
+                .catch(() => console.log('Usuário não possui chats de venda!'));
+        }
 
         if (!chatData) {
             return res.json();

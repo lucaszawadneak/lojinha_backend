@@ -5,9 +5,9 @@ export default async (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-        return res
-            .status(401)
-            .json({ error: 'Token inválido ou inexistente!' });
+        return res.status(401).json({
+            error: 'Token inválido ou expirado! Faça login novamente.',
+        });
     }
 
     const [, token] = authHeader.split(' ');
@@ -17,8 +17,8 @@ export default async (req, res, next) => {
 
         return next();
     } catch (error) {
-        return res
-            .status(401)
-            .json({ error: 'Token inválido ou inexistente!' });
+        return res.status(401).json({
+            error: 'Token inválido ou expirado! Faça login novamente.',
+        });
     }
 };
