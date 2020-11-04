@@ -106,6 +106,7 @@ class ProductController {
             picture: Yup.array().nullable(),
             deliveryDescription: Yup.string().nullable().max(250),
             paymentDescription: Yup.string().nullable().max(60),
+            active: Yup.boolean().nullable(),
         });
 
         if (!(await schema.isValid(req.body))) {
