@@ -46,7 +46,7 @@ class ProductController {
     }
 
     async index(req, res) {
-        const { category, title, page, user } = req.query;
+        const { category, title, page, user, onlyActive } = req.query;
 
         const schema = Yup.object().shape({
             page: Yup.number().nullable(),
@@ -70,14 +70,12 @@ class ProductController {
             },
         };
 
+        if (onlyActive) {
+            query = { ...query, active: true };
+        }
+
         if (category) {
-            query = {
-                category,
-                title: {
-                    $regex: title || '',
-                    $options: 'i',
-                },
-            };
+            query = { ...query, category };
         }
         if (user) {
             query = { ...query, user };
