@@ -6,7 +6,8 @@ export default async (req, res, next) => {
 
     if (!authHeader) {
         return res.status(401).json({
-            error: 'Token inválido ou expirado! Faça login novamente.',
+            error:
+                'Você não está logado. Por favor, faça login novamente para fazer isso!',
         });
     }
 
@@ -18,7 +19,8 @@ export default async (req, res, next) => {
         return next();
     } catch (error) {
         return res.status(401).json({
-            error: 'Token inválido ou expirado! Faça login novamente.',
+            error:
+                'Você não está logado. Por favor, faça login novamente para fazer isso!',
         });
     }
 };
