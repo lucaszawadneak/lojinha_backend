@@ -47,6 +47,7 @@ class ProductController {
 
     async index(req, res) {
         const { category, title, page, user, onlyActive } = req.query;
+        const { exclude } = req.body;
 
         const schema = Yup.object().shape({
             page: Yup.number().nullable(),
@@ -89,6 +90,16 @@ class ProductController {
             .populate({ path: 'user', select: '-password_hash' })
             .select('-password_hash')
             .catch(() => console.log('Produto não encontrado'));
+
+        if (exclude) {
+            exclude.forEach((id) => {
+                let index = products.findIndex((item) => item._id == id);
+                console.log(id);
+                if (index >= 0) {
+                    products.splice(index, 1);
+                }
+            });
+        }
 
         return res.json(products);
     }

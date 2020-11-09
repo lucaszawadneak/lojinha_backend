@@ -27,7 +27,8 @@ routes.get('/categories', (_, res) => {
     return res.json(categories);
 });
 
-routes.get('/products', ProductController.index);
+routes.post('/products', ProductController.index);
+// Essa rota é post pois o usuário pode enviar um array com ids para não serem retornados!
 
 routes.get('/product/:id', ProductController.show);
 
@@ -61,7 +62,8 @@ routes.put('/chat', ChatController.update);
 
 routes.get('/chat/:id/:user', ChatController.show);
 
-routes.get('/chats/:user', ChatController.index);
+routes.post('/chats/:user', ChatController.index);
+// Essa rota é post pois o usuário pode enviar um array com ids para não serem retornados!
 
 routes.post('/generate_code/:id', VerificationController.store);
 

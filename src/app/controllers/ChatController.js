@@ -196,6 +196,7 @@ class ChatController {
     async index(req, res) {
         const { user } = req.params;
         const { selling, buying } = req.query;
+        const { exclude } = req.body;
 
         let chatData = null;
 
@@ -263,6 +264,15 @@ class ChatController {
 
         if (!chatData) {
             return res.json();
+        }
+
+        if (exclude) {
+            exclude.forEach((id) => {
+                let index = chatData.findIndex((item) => item._id == id);
+                if (index >= 0) {
+                    chatData.splice(index, 1);
+                }
+            });
         }
         return res.json(chatData);
     }
