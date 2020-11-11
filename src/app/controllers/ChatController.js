@@ -143,6 +143,8 @@ class ChatController {
         // NOTIFICAR USUÁRIO QUE RECEBE MENSAGEM
         let expoToken = null;
 
+        console.log(findChat);
+
         if (sent_by === 'buyer') {
             expoToken = findChat.seller.notification_token;
         } else {

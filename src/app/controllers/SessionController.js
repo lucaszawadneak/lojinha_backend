@@ -17,10 +17,7 @@ class SessionController {
         // PROCURA UM USUÁRIO COM CPF REGISTRADO NO BACK
         // SE NÃO ACHAR, OU SE O USUÁRIO NÃO POSSUIR SENHA REGISTRADA, FAZ O LOGIN PELO SIGA
         if (findUser) {
-            if (
-                !findUser.notification_token &&
-                Expo.isExpoPushToken(notificationToken)
-            ) {
+            if (notificationToken && Expo.isExpoPushToken(notificationToken)) {
                 findUser.notification_token = notificationToken;
                 findUser.save();
             }

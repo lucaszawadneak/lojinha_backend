@@ -136,6 +136,8 @@ class ProductController {
                 .json({ error: 'Você não tem permissão para editar isso!' });
         }
 
+        console.log(req.body.category);
+
         await product.updateOne(req.body);
         product.save();
 
