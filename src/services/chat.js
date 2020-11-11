@@ -14,6 +14,7 @@ io.on('connection', (socket) => {
 
     socket.on('message', (data) => {
         socket.to(data.room).emit('receivedMessage', {
+            room: data.room,
             message: data.message,
             sent_by: data.sent_by,
         });

@@ -108,8 +108,14 @@ class ChatController {
         }
 
         const findChat = await Chat.findById(chat)
-            .populate({ path: 'buyer', select: ['id', 'notification_token'] })
-            .populate({ path: 'seller', select: ['id', 'notification_token'] })
+            .populate({
+                path: 'buyer',
+                select: ['id', 'notification_token', 'name'],
+            })
+            .populate({
+                path: 'seller',
+                select: ['id', 'notification_token', 'name'],
+            })
             .catch(() => console.log('Chat não encontrado!'));
 
         if (!findChat) {
@@ -142,18 +148,22 @@ class ChatController {
 
         // NOTIFICAR USUÁRIO QUE RECEBE MENSAGEM
         let expoToken = null;
+        let title = '';
 
         console.log(findChat);
 
         if (sent_by === 'buyer') {
             expoToken = findChat.seller.notification_token;
+            title = findChat.seller.name;
         } else {
             expoToken = findChat.buyer.notification_token;
+            title = findChat.buyer.name;
         }
 
         const notification = {
             expoToken,
             message,
+            title,
         };
 
         NotificationController.requestSend(notification);
