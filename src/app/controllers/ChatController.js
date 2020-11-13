@@ -149,15 +149,16 @@ class ChatController {
         // NOTIFICAR USUÁRIO QUE RECEBE MENSAGEM
         let expoToken = null;
         let title = '';
-
-        console.log(findChat);
+        let target = '';
 
         if (sent_by === 'buyer') {
+            target = findChat.seller._id;
             expoToken = findChat.seller.notification_token;
-            title = findChat.seller.name;
-        } else {
-            expoToken = findChat.buyer.notification_token;
             title = findChat.buyer.name;
+        } else {
+            target = findChat.buyer._id;
+            expoToken = findChat.buyer.notification_token;
+            title = findChat.seller.name;
         }
 
         const notification = {
@@ -166,7 +167,7 @@ class ChatController {
             title,
         };
 
-        NotificationController.requestSend(notification);
+        NotificationController.requestSend(notification, target);
 
         return res.json({ message: 'Ok!' });
     }
