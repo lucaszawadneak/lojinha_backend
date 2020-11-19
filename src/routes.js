@@ -62,8 +62,7 @@ routes.put('/chat', ChatController.update);
 
 routes.get('/chat/:id/:user', ChatController.show);
 
-routes.post('/chats/:user', ChatController.index);
-// Essa rota é post pois o usuário pode enviar um array com ids para não serem retornados!
+routes.get('/chats/:user', ChatController.index);
 
 routes.post('/generate_code/:id', VerificationController.store);
 
