@@ -226,7 +226,7 @@ class ChatController {
                 })
                 .populate({
                     path: 'product',
-                    select: ['-user', '-description', '-created-at'],
+                    select: ['-user', '-created-at'],
                     populate: 'picture',
                 })
                 .select('-messages')
@@ -246,7 +246,7 @@ class ChatController {
                 })
                 .populate({
                     path: 'product',
-                    select: ['-user', '-description', '-created-at'],
+                    select: ['-user', '-created-at'],
                     populate: 'picture',
                 })
                 .select('-messages')
@@ -267,7 +267,7 @@ class ChatController {
                 })
                 .populate({
                     path: 'product',
-                    select: ['-user', '-description', '-created-at'],
+                    select: ['-user', '-created-at'],
                     populate: 'picture',
                 })
                 .select('-messages')
