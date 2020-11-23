@@ -115,6 +115,7 @@ class SessionController {
                 token: jwt.sign({ id: user.id }, process.env.AUTH_SECRET, {
                     expiresIn: authConfig.expiresIn,
                 }),
+                mail_verification: user.mail_verification.isVerified,
             });
         }
         return res
