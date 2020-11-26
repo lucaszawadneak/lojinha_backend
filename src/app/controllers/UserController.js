@@ -174,7 +174,7 @@ class UserController {
         }
         findOne.save();
 
-        return res.json({ message: 'Ok!' });
+        return res.json({ ...findOne, password_hash: null });
     }
 
     async delete(req, res) {

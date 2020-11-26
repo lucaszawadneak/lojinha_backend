@@ -42,8 +42,9 @@ class SessionController {
                         cpf: findUser.cpf,
                         email: findUser.email,
                         avatar: findUser.avatar,
-                        mail_verification:
-                            findUser.mail_verification.isVerified,
+                        mail_verification: {
+                            isVerified: findUser.mail_verification.isVerified,
+                        },
                     });
                 }
                 return res
@@ -120,7 +121,9 @@ class SessionController {
                 token: jwt.sign({ id: user.id }, process.env.AUTH_SECRET, {
                     expiresIn: authConfig.expiresIn,
                 }),
-                mail_verification: user.mail_verification.isVerified,
+                mail_verification: {
+                    isVerified: user.mail_verification.isVerified,
+                },
             });
         }
         return res
