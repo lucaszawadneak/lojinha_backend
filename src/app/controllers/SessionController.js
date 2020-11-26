@@ -3,6 +3,7 @@ import { Expo } from 'expo-server-sdk';
 
 import bcrypt from 'bcryptjs';
 import User from '../models/User';
+import File from '../models/File';
 import siga from '../../services/api';
 import authConfig from '../../config/auth';
 
@@ -104,9 +105,13 @@ class SessionController {
                 });
                 user.save();
             }
+            let userAvatar = null;
+            if (user.avatar) {
+                userAvatar = await File.findById(user.avatar);
+            }
             return res.json({
                 _id: user.id,
-                avatar: user.avatar,
+                avatar: userAvatar,
                 student: user.student,
                 siga_linked: true,
                 cpf: user.cpf,
