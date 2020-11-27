@@ -111,7 +111,7 @@ class ProductController {
             title: Yup.string().nullable(),
             price: Yup.string().nullable(),
             description: Yup.string().nullable(),
-            category: Yup.number().positive().nullable(),
+            category: Yup.number().nullable(),
             picture: Yup.array().nullable(),
             deliveryDescription: Yup.string().nullable().max(250),
             paymentDescription: Yup.string().nullable().max(60),
