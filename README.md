@@ -54,9 +54,12 @@ Dentro do diretório do projeto, crie um arquivo .env com os seguintes campos:
 
 ```bash
 SIGA_TOKEN=
-API_URL=mongodb://localhost:27017/lojinha
+API_URL=mongodb://localhost:port/lojinha
 AUTH_SECRET=dev
 SIGA_URL=
+EMAIL_USER=
+EMAIL_PASSWORD=
+SMTP_ID=
 ```
 
 O campo SIGA_TOKEN faz referência ao token para poder usar rotas na integração com o SIGA.
@@ -66,6 +69,8 @@ O campo API_URL é a url por onde o servidor tem acesso a base de dados MongoDB
 O campo AUTH_SECRET é uma chave qualquer que codifica os tokens da nossa aplicação (apenas digite qualquer palavra para testes).
 
 O campo SIGA_URL é o url para requisições no SIGA.
+
+Os campos EMAIL_USER, EMAIL_PASSWORD e SMTP_ID são os utilizados para o envio de email.
 
 **Por motivos de segurança, os dados referentes ao SIGA não serão compartilhados nessa documentação. Caso você não tenha acesso a essas informações, deixe os campos em branco**
 
@@ -85,7 +90,7 @@ $ npm run dev
 
 Para iniciar o servidor Node da aplicação. Agora é só **utilizar do seu testador de requisições de preferência** para utilizar. Verifique as rotas do projeto na Disposição das rotas, logo abaixo.
 
-O projeto está rodando por padrão no url **http://localhost:3333/** (ou seja, na porta 3333)
+O projeto está rodando por padrão no url **http://localhost:3333/** (ou seja, na porta 3333). O chat do projeto roda por padrão na porta 3334.
 
 ## :arrow_right_hook: Disposição das rotas
 
